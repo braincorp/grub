@@ -1170,7 +1170,7 @@ grub_cmd_measure (grub_command_t cmd __attribute__ ((unused)),
   index = grub_strtoul(argv[1], NULL, 10 );
 
   /* if index is invalid */
-  if( grub_errno != GRUB_ERR_NONE )
+  if (grub_errno != GRUB_ERR_NONE)
     {
       grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename and PCR expected"));
       goto fail;
@@ -1178,7 +1178,9 @@ grub_cmd_measure (grub_command_t cmd __attribute__ ((unused)),
 
   file = grub_file_open (argv[0]);
   if (! file)
-    goto fail;
+    {
+      goto fail;
+    }
 
   len = grub_file_size (file);
   read_data = grub_malloc (len);
@@ -1192,8 +1194,10 @@ grub_cmd_measure (grub_command_t cmd __attribute__ ((unused)),
   if (grub_file_read (file, read_data, len) != len)
     {
       if (!grub_errno)
-	grub_error (GRUB_ERR_BAD_OS, N_("premature end of file %s"),
-		    argv[0]);
+        {
+          grub_error (GRUB_ERR_BAD_OS, N_("premature end of file %s"),
+                      argv[0]);
+        }
       goto fail;
     }
 
@@ -1203,7 +1207,9 @@ grub_cmd_measure (grub_command_t cmd __attribute__ ((unused)),
  fail:
 
   if (file)
-    grub_file_close (file);
+    {
+      grub_file_close (file);
+    }
 
   return grub_errno;
 }
